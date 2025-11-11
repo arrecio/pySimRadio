@@ -28,11 +28,11 @@ A valid AutoHotkey installation is required. The executable must be available th
 
 A valid path can also be established by modifying the code in main.py
 
-> ahk = AHK(executable_path="Path/To/AutoHokey.exe")
+> ahk = AHK(executable_path="Path/To/AutoHotkey.exe")
 
 or 
 
-> ahk = AHK(version="v2", executable_path="Path/To/v2/AutoHokey.exe")
+> ahk = AHK(version="v2", executable_path="Path/To/v2/AutoHotkey.exe")
 
 ## vosk model
 
