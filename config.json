@@ -1,3 +1,5 @@
 {
-    "RadioButton": "2Joy1"
+    "RadioButton": "2Joy1",
+    "Overlay": 1,
+    "AutoHideIdle": 0
 }

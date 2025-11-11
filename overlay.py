@@ -3,23 +3,25 @@ import PyQt5.QtGui as QtGui
 from PyQt5.QtWidgets import QApplication, QMainWindow, QStyle, QLabel, QAction
 from PyQt5.QtCore import Qt, QSize, QTimer
 from PyQt5 import QtWidgets
-from PyQt5.QtGui import QPainter, QBrush, QColor, QPixmap, QIcon
-from pathlib import Path
+from PyQt5.QtGui import QPainter, QBrush, QColor
 import random
 
 BAR_WIDTH = 8
-OVERLAY_WIDTH = 140
+OVERLAY_WIDTH = 110
 OVERLAY_HEIGHT = 100
 WAITING_COLOR = QColor(255,0,0)
 LISTENING_COLOR = QColor(0,255,0)
 
-class Icon(QtWidgets.QWidget):
-    def __init__(self, parent):
+class SpectrumWidget(QtWidgets.QWidget):
+    def __init__(self, parent, autohide):
         super().__init__(parent)
+        # context menu
         self.setContextMenuPolicy(QtCore.Qt.ActionsContextMenu)
-        hotkeyAction = QAction("Set Hotkey", self)
-        hotkeyAction.triggered.connect(self.setHotkey)
+        hotkeyAction = QAction("Turn off the radio", self)
+        hotkeyAction.setIcon(self.style().standardIcon(QStyle.SP_TitleBarCloseButton))
+        hotkeyAction.triggered.connect(exit)
         self.addAction(hotkeyAction)
+        self.__autohide = autohide
         self.__color = WAITING_COLOR
         self.__listening = False
         self.__sizes = [10,20,35,25,45,90]
@@ -28,11 +30,9 @@ class Icon(QtWidgets.QWidget):
         self.__timer.timeout.connect(self.update)
         self.__timer.start()
 
-    def setHotkey(self, event):
-        print("To implement")
-
     def update(self):
         if self.__listening:
+            # randomize spectrum
             for i in range(0, len(self.__sizes)):
                 self.__sizes[i] = random.randint(0,90)
         else:
@@ -42,10 +42,14 @@ class Icon(QtWidgets.QWidget):
     def onListening(self):
         self.__color = LISTENING_COLOR
         self.__listening = True
+        if self.__autohide:
+            self.show()
 
     def onWaiting(self):
         self.__color = WAITING_COLOR
         self.__listening = False
+        if self.__autohide:
+            self.hide()
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -70,7 +74,7 @@ class Window(QMainWindow):
             event.accept()
 
 class Overlay():
-    def __init__(self):
+    def __init__(self, autohide=0):
         super().__init__()
         self.__window = Window()
         self.__window.setWindowFlags(
@@ -88,13 +92,13 @@ class Overlay():
         self.__window.setStyleSheet("QLineEdit QMenu::item {color: rgb(0, 0, 255);}")
         self.__window.setAttribute(Qt.WA_TranslucentBackground)
 
-        self.__icon = Icon(self.__window)
-        self.__icon.resize(OVERLAY_WIDTH, OVERLAY_HEIGHT)
+        self.__spectrum = SpectrumWidget(self.__window, autohide)
+        self.__spectrum.resize(OVERLAY_WIDTH, OVERLAY_HEIGHT)
 
         self.__window.show()
 
     def listeningMode(self):
-        self.__icon.onListening()
+        self.__spectrum.onListening()
 
     def waitingMode(self):
-        self.__icon.onWaiting()
+        self.__spectrum.onWaiting()

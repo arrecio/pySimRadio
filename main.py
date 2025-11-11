@@ -10,9 +10,9 @@ import json
 with open('config.json', 'r') as file:
     config = json.load(file)
 
-# app overlay
+# app and overlay
 app = QApplication([])
-overlay = Overlay()
+overlay = Overlay(autohide=config["AutoHideIdle"]) if config["Overlay"] else None
 
 # recognizer setup
 r = VoskRecognizer()
@@ -38,17 +38,16 @@ def chat(str):
 # radio activation (only on iRacing)
 def useRadio():
     if ahk.active_window.get_process_name() == "iRacingSim64DX11.exe":
-        overlay.listeningMode()
+        if overlay: overlay.listeningMode()
         speech = r.recognizeMic()
-        if speech and len(speech) > 0:
-            chat(speech)
-        overlay.waitingMode()
+        if speech and len(speech) > 0: chat(speech)
+        if overlay: overlay.waitingMode()
 
 ahk.add_hotkey(config["RadioButton"], callback=useRadio)
 ahk.start_hotkeys()
 
-# ctrl+c
+# ctrl+c catch
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
-# run
+# run (may be we dont need it with no overlay)
 app.exec()

@@ -1,6 +1,34 @@
 # pySimRadio
 
-A simple Text-to-Chat for iRacing racers using python.
+A VERY simple Speech-to-Chat for iRacing racers using python. Dont expect complex code or nice UIs.
+
+# Settings
+
+## "Radio" button
+
+Edit config.json file and sets the RadioButton to one of these valid values: https://www.autohotkey.com/docs/v2/KeyList.htm
+
+For Wheels/gamepad buttons only the first 32 coded buttons are available, from "Joy1" to "Joy32" for controller 1, "2Joy1" to "2Joy32" for controller 2 and so on till "16Joy1" to "16Joy32" (16 is the max number of controllers available for reading). If you want to use higher idexed buttons you will have to remap them using the program suplied by the manufacturer or any other, or even maping to the keyboard and using the maped key, to do it just use a program like Antimicrox (https://github.com/AntiMicroX/antimicrox).
+
+To know the number of the device you want to use run:
+
+> joy.cpl
+
+Devices are sorteds in ordinal (or should it).
+
+Note if you set a keyboard button it will block they original functionality. And if you edit json file you will need to re-run the program to apply the changes.
+
+## No Overlay
+
+Edit config.json file and sets the Overlay value to 0 to dont show the overlay.
+
+## Auto hide after first radio call
+
+Edit config.json file and sets the AutoHideIdle to 1 for hide the overlay after the first use, or sets 0 to keep it visible. Of course, it will not produce any effect if Overlay vale is set to 0.
+
+# Running
+
+> python main.py
 
 # Third-Party python dependencies
 
@@ -15,6 +43,10 @@ https://pypi.org/project/vosk/ - for transcription
 https://pypi.org/project/ahk/ - for controller/keyboard management
 
 https://pypi.org/project/playsound3/ - for the "bip" sfx
+
+All these ones are libs wich really deserve some credit of this program. All-in-one pip install:
+
+> pip install SpeechRecognition vosk pyqt5 ahk playsound3
 
 # Third-Party non-python dependencies
 
@@ -43,3 +75,7 @@ Download the model for the language you want to use and decompress its contents 
 A custom path can also be established by modifying the code in main.py:
 
 > r.start(model="Path/To/Model/Directory")
+
+# Turn off the radio
+
+Right clicking the overlay and select this option or Ctrl+C on the terminal you use to run the program (or even closing that terminal).
