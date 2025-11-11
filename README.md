@@ -8,7 +8,7 @@ A VERY simple Speech-to-Chat for iRacing racers using python. Dont expect comple
 
 Edit config.json file and sets the RadioButton to one of these valid values: https://www.autohotkey.com/docs/v2/KeyList.htm
 
-For Wheels/gamepad buttons only the first 32 coded buttons are available, from "Joy1" to "Joy32" for controller 1, "2Joy1" to "2Joy32" for controller 2 and so on till "16Joy1" to "16Joy32" (16 is the max number of controllers available for reading). If you want to use higher idexed buttons you will have to remap them using the program suplied by the manufacturer or any other, or even maping to the keyboard and using the maped key, to do it just use a program like Antimicrox (https://github.com/AntiMicroX/antimicrox).
+For Wheels/gamepad buttons only the first 32 coded buttons are available, from "Joy1" to "Joy32" for controller 1, "2Joy1" to "2Joy32" for controller 2 and so on till "16Joy1" to "16Joy32" (16 is the max number of controllers available for reading). If you want to use higher idexed buttons you will have to remap them using the application suplied by the manufacturer or any other, or even maping to the keyboard and using the maped key, to do it just use an application like Antimicrox (https://github.com/AntiMicroX/antimicrox).
 
 To know the number of the device you want to use run:
 
@@ -16,7 +16,7 @@ To know the number of the device you want to use run:
 
 Devices are sorteds in ordinal (or should it).
 
-Note if you set a keyboard button it will block they original functionality. And if you edit json file you will need to re-run the program to apply the changes.
+Note if you set a keyboard button it will block they original functionality. And if you edit json file you will need to re-run the script to apply the changes.
 
 ## No Overlay
 
@@ -68,9 +68,9 @@ or
 
 ## vosk model
 
-A vosk model must be downloaded in order to use this program. Many models are available at https://alphacephei.com/vosk/models.
+A vosk model must be downloaded in order to use this script. Many models are available at https://alphacephei.com/vosk/models.
 
-Download the model for the language you want to use and decompress its contents into the program folder, then rename it to "model"
+Download the model for the language you want to use and decompress its contents into the main folder, then rename it to "model"
 
 A custom path can also be established by modifying the code in main.py:
 
@@ -78,4 +78,4 @@ A custom path can also be established by modifying the code in main.py:
 
 # Turn off the radio
 
-Right clicking the overlay and select this option or Ctrl+C on the terminal you use to run the program (or even closing that terminal).
+Right clicking the overlay and select this option or Ctrl+C on the terminal you use to run the script (or even closing that terminal).
