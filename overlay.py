@@ -5,10 +5,12 @@ from PyQt5.QtCore import Qt, QSize, QTimer
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QPainter, QBrush, QColor, QPixmap, QIcon
 from pathlib import Path
+import random
 
+BAR_WIDTH = 8
 OVERLAY_WIDTH = 140
 OVERLAY_HEIGHT = 100
-ICON_COLOR = QColor(255,255,255)
+WAITING_COLOR = QColor(255,0,0)
 LISTENING_COLOR = QColor(0,255,0)
 
 class Icon(QtWidgets.QWidget):
@@ -18,27 +20,41 @@ class Icon(QtWidgets.QWidget):
         hotkeyAction = QAction("Set Hotkey", self)
         hotkeyAction.triggered.connect(self.setHotkey)
         self.addAction(hotkeyAction)
-        self.__color = ICON_COLOR
+        self.__color = WAITING_COLOR
+        self.__listening = False
+        self.__sizes = [10,20,35,25,45,90]
+        self.__timer = QTimer()
+        self.__timer.setInterval(64)
+        self.__timer.timeout.connect(self.update)
+        self.__timer.start()
 
     def setHotkey(self, event):
         print("To implement")
 
-    def onListening(self):
-        self.__color = LISTENING_COLOR
+    def update(self):
+        if self.__listening:
+            for i in range(0, len(self.__sizes)):
+                self.__sizes[i] = random.randint(0,90)
+        else:
+            self.__sizes = [10,20,35,25,45,90]
         self.repaint()
 
+    def onListening(self):
+        self.__color = LISTENING_COLOR
+        self.__listening = True
+
     def onWaiting(self):
-        self.__color = ICON_COLOR
-        self.repaint()
+        self.__color = WAITING_COLOR
+        self.__listening = False
 
     def paintEvent(self, event):
         painter = QPainter(self)
         painter.setRenderHint(QtGui.QPainter.RenderHint.Antialiasing)
-        sizes = [10,20,35,25,45,90]
+        sizes = self.__sizes
         for i in range(0, len(sizes)):
-            painter.fillRect(QtCore.QRect(i*13, int(50-sizes[i]/2), 10, sizes[i]), QBrush(self.__color))
+            painter.fillRect(QtCore.QRect(i*(BAR_WIDTH+2), int(50-sizes[i]/2), BAR_WIDTH, sizes[i]), QBrush(self.__color))
         for i in range(0, len(sizes)-1):
-            painter.fillRect(QtCore.QRect((i+len(sizes))*13, int(50-sizes[len(sizes)-2-i]/2), 10, sizes[len(sizes)-2-i]), QBrush(self.__color))
+            painter.fillRect(QtCore.QRect((i+len(sizes))*(BAR_WIDTH+2), int(50-sizes[len(sizes)-2-i]/2), BAR_WIDTH, sizes[len(sizes)-2-i]), QBrush(self.__color))
 
 #embed window
 class Window(QMainWindow):

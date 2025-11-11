@@ -3,7 +3,7 @@ import speech_recognition as sr
 import json
 from vosk import KaldiRecognizer, Model, SetLogLevel
 from playsound3 import playsound
-import threading, os
+import os
 
 class VoskRecognizer:
     def __init__(self):
@@ -36,7 +36,11 @@ class VoskRecognizer:
 
         with self.__microphone as source:
             # recognizer.adjust_for_ambient_noise(source)
-            audio = self.__recognizer.listen(source)
+            try:
+                audio = self.__recognizer.listen(source, timeout=3)
+            except:
+                self.__busy = False
+                return None
 
         self.__rec.AcceptWaveform(audio.get_raw_data(convert_rate=16000, convert_width=2))
         finalRecognition = self.__rec.FinalResult()

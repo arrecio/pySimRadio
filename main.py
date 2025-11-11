@@ -3,15 +3,18 @@ from overlay import Overlay
 from ahk import AHK
 from PyQt5.QtWidgets import QApplication
 
-import sys, time, signal
+import time, signal
 
 app = QApplication([])
 overlay = Overlay()
 
 r = VoskRecognizer()
-r.start(model="../vosk-model-en-us-0.22-lgraph")
+r.start()
 
-ahk = AHK(executable_path="C:/Program Files/AutoHotkey/v2/AutoHotkey64.exe")
+try:
+    ahk = AHK()
+except:
+    ahk = AHK(version="v2")
 
 def chat(str):
     ahk.send("{^}")
@@ -24,10 +27,9 @@ def chat(str):
     ahk.send("{Escape}")
 
 def useRadio():
-    # if ahk.active_window.get_process_name() == "iRacingSim64DX11.exe":
+    if ahk.active_window.get_process_name() == "iRacingSim64DX11.exe":
         overlay.listeningMode()
         speech = r.recognizeMic()
-        print(speech)
         if speech and len(speech) > 0:
             chat(speech)
         overlay.waitingMode()
