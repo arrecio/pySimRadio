@@ -31,7 +31,7 @@ class VoskRecognizer:
             return None
 
         with self.__microphone as source:
-            self.__recognizer.adjust_for_ambient_noise(source)
+            # self.__recognizer.adjust_for_ambient_noise(source)
             try:
                 audio = self.__recognizer.listen(source, timeout=3)
             except:

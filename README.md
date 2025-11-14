@@ -4,6 +4,9 @@ A VERY simple Speech-to-Chat for iRacing racers using python. Dont expect comple
 
 # Third-Party python dependencies
 
+> [!NOTE]
+> First of all, at november'25, i recomend using python 3.13 to fit issues with pyAudio.
+
 This program uses several third-party dependencies that must be installed using pip or similar:
 
 https://pypi.org/project/SpeechRecognition/ - it has a nice microphone audio reader.
@@ -19,6 +22,27 @@ https://pypi.org/project/playsound3/ - for the "bip" sfx
 All these ones are libs wich really deserve some credit of this program. All-in-one pip install:
 
 > pip install SpeechRecognition vosk pyqt5 ahk playsound3
+
+## Troubleshoting with pyAudio
+
+SpeechRecognition requires pyAudio module installed with is a bit a headpain issue. There is a precompiled version using the wheel wich can be installed via:
+
+> pip install pyaudio
+
+But at the moment of writing this README there wasnt a version for python 3.14+.
+
+There are some solutions or alternatives wich doesnt work for my python 3.14, like:
+
+> pip install pipwin
+> 
+> pipwin install pyaudio
+
+or
+
+> winget install -e --id intxcc.pyaudio
+
+Using python 3.13 and the "pip install pyaudio" method is working well.
+
 
 # Third-Party non-python dependencies
 
@@ -73,4 +97,3 @@ Edit config.json file and sets the AutoHideIdle to 1 for hide the overlay after 
 # Stop running
 
 Right clicking the overlay and select this option or Ctrl+C on the terminal you use to run the script (or even closing that terminal).
-
