@@ -1,6 +1,6 @@
 import PyQt5.QtCore as QtCore
 import PyQt5.QtGui as QtGui
-from PyQt5.QtWidgets import QApplication, QMainWindow, QStyle, QLabel, QAction
+from PyQt5.QtWidgets import QApplication, QMainWindow, QStyle, QAction
 from PyQt5.QtCore import Qt, QSize, QTimer
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QPainter, QBrush, QColor
@@ -17,7 +17,7 @@ class SpectrumWidget(QtWidgets.QWidget):
         super().__init__(parent)
         # context menu
         self.setContextMenuPolicy(QtCore.Qt.ActionsContextMenu)
-        hotkeyAction = QAction("Turn off the radio", self)
+        hotkeyAction = QAction("Quit", self)
         hotkeyAction.setIcon(self.style().standardIcon(QStyle.SP_TitleBarCloseButton))
         hotkeyAction.triggered.connect(exit)
         self.addAction(hotkeyAction)
@@ -89,7 +89,7 @@ class Overlay():
             QApplication.instance().primaryScreen().availableGeometry(),
         ))
         self.__window.setStyleSheet("background:transparent;")
-        self.__window.setStyleSheet("QLineEdit QMenu::item {color: rgb(0, 0, 255);}")
+        self.__window.setStyleSheet("QLineEdit QMenu::item {color: rgb(0, 0, 0);}")
         self.__window.setAttribute(Qt.WA_TranslucentBackground)
 
         self.__spectrum = SpectrumWidget(self.__window, autohide)

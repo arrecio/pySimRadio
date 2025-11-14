@@ -1,33 +1,29 @@
 
 import speech_recognition as sr
-import json
-from vosk import KaldiRecognizer, Model, SetLogLevel
-from playsound3 import playsound
 import os
+import json
+from vosk import KaldiRecognizer, Model
+from playsound3 import playsound
 
 class VoskRecognizer:
-    def __init__(self):
+    def __init__(self, model="model"):
         self.__recognizer = sr.Recognizer()
         self.__microphone = sr.Microphone()
-        self.__rec = None
         self.__busy = False
-
-    # loads the vosk model
-    def start(self, model="model"):
-        if not self.__rec:
-            if not os.path.exists(model):
-                print("Please download the model from https://alphacephei.com/vosk/models and un9pack as 'model' in the current folder to use this as default or set the 'model' argument with their path to VoskRecognizer.start(model='model_path').")
-                exit()
+        if not os.path.exists(model):
+            print("Vosk model data not found. (see README.md)")
+            exit()
+        try:
             self.__vosk_model = Model(model)
             self.__rec = KaldiRecognizer(self.__vosk_model, 16000)
+        except:
+            print("Invalid Vosk model at '{}'. (see README.md)".format(model))
+            exit()
 
     def isReady(self):
         return not self.__rec is None
 
     def recognizeMic(self):
-        if not self.__rec:
-            print("Recognizer not initialized. Please call start(model?) first.")
-            return None
         if not self.__busy:
             playsound("media/radio.mp3", block = False)
             self.__busy = True
@@ -35,7 +31,7 @@ class VoskRecognizer:
             return None
 
         with self.__microphone as source:
-            # recognizer.adjust_for_ambient_noise(source)
+            self.__recognizer.adjust_for_ambient_noise(source)
             try:
                 audio = self.__recognizer.listen(source, timeout=3)
             except:
