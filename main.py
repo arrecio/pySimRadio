@@ -4,16 +4,26 @@ from ahk import AHK
 from PyQt5.QtWidgets import QApplication
 import time, signal
 import json
+import re
 
-# loading configuration
-with open('config.json', 'r') as file:
+
+#####################################################################
+# Loading configuration from config.json
+#####################################################################
+
+with open('config.json', 'r', encoding='utf-8') as file:
     config = json.load(file)
 
 ahk_path        = config.get("AhkPath")
 auto_hide_idle  = config.get("AutoHideIdle")
 draw_overlay    = config.get("Overlay")
 vosk_model_path = config.get("VoskModelPath")
-radio_activator = config.get("RadioButton")
+free_radio_activator = config.get("FreeRadioButton")
+engineer_activator = config.get("EngineerButton")
+
+#####################################################################
+#   I N I T
+#####################################################################
 
 # Requirement: ahk setup
 try:
@@ -32,18 +42,32 @@ vosk = VoskRecognizer(model=vosk_model_path)
 app = QApplication([])
 overlay = Overlay(autohide=auto_hide_idle) if draw_overlay else None
 
+# getting a phrase from mic
+def getSpeech():
+    if overlay: overlay.listeningMode()
+    speech = vosk.recognizeMic()
+    if overlay: overlay.waitingMode()
+    if speech and len(speech) > 0: return speech
+
+#####################################################################
+#   F R E E    R A D I O
+#####################################################################
+
 # iRacing chat message sending
 def chat(str):
+    print("CHATING: " + str)
     ahk.send("{^}")
+    time.sleep(0.1)
     ahk.send("{Escape}")
+    time.sleep(0.1)
     ahk.send("{t}")
     time.sleep(0.1)
     ahk.send_raw("{}".format(str))
     ahk.send("{Enter}")
-    time.sleep(0.1)
+    time.sleep(0.3)
     ahk.send("{Escape}")
 
-# radio activation (only on iRacing)
+# free radio activation
 def useRadio():
     # if ahk.active_window.get_process_name() == "iRacingSim64DX11.exe":
         if overlay: overlay.listeningMode()
@@ -51,7 +75,53 @@ def useRadio():
         if speech and len(speech) > 0: chat(speech)
         if overlay: overlay.waitingMode()
 
-ahk.add_hotkey(radio_activator, callback=useRadio)
+#####################################################################
+#   E N G I N E E R
+#####################################################################
+
+from parser import *
+
+init_parser()
+
+ENGINEER_COMMANDS = config["EngineerCommands"]
+VALID_TYPES = ("chat", "keypress")
+
+for item in ENGINEER_COMMANDS:
+    if not "command" in item or not "type" in item or not item["type"] in VALID_TYPES:
+        print("Bad Engineer command. Exiting")
+        print(item)
+        exit()
+
+def send_keys(keys = ""):
+    print("SENDING KEYS:" + keys)
+    ahk.send(keys)
+
+
+def callEngineer():
+    speech = getSpeech()
+    if not speech:
+        return
+    print(speech)
+    for item in ENGINEER_COMMANDS:
+        command = item["command"]
+        r = re.search(command, speech)
+        if not r: continue
+        for i in range(0, len(r.groups())):
+            g = r.group(i+1)
+            replaced = replace(g)
+            if replaced:
+                speech = speech.replace(g, replaced)
+        print("MATCHED: " + command)
+        dispatcher = item["type"]
+        if dispatcher == "chat" and "msg" in item:
+            chat(re.sub(command, item["msg"], speech))
+        elif dispatcher == "keypress" and "keys" in item:
+            send_keys(item["keys"])
+
+
+ahk.add_hotkey(free_radio_activator, callback=useRadio)
+ahk.add_hotkey(engineer_activator, callback=callEngineer)
+
 ahk.start_hotkeys()
 
 # ctrl+c catch

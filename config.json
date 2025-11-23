@@ -1,6 +1,39 @@
 {
-    "RadioButton": "Joy1",
+    "FreeRadioButton": "Joy1",
+    "EngineerButton": "Joy2",
     "Overlay": 1,
     "AutoHideIdle": 0,
-    "VoskModelPath": "model"
+    "VoskModelPath": "model",
+    "EngineerCommands": [
+        {
+            "command": "^pero que coño$",
+            "type": "chat",
+            "msg": "WTF"
+        },
+        {
+            "command": "^puto coche (.*)$",
+            "type": "chat",
+            "msg": "Stupid car \\1"
+        },
+        {
+            "command": "^(.*) gilipollas",
+            "type": "chat",
+            "msg": "car \\1, are you moron?"
+        },
+        {
+            "command": "^gracias",
+            "type": "chat",
+            "msg": "Thanks!!!"
+        },
+        {
+            "command": "^de nada",
+            "type": "chat",
+            "msg": "You are welcome!!!"
+        },
+        {
+            "command": "^micrófono$",
+            "type": "keypress",
+            "keys": "^<"
+        }
+    ]
 }

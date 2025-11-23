@@ -2,6 +2,10 @@
 
 A VERY simple Speech-to-Chat for iRacing racers using python. Dont expect complex code or nice UIs.
 
+Keep in mind that Free Radio mode will send the transcript on the fly, so it may send content that may not be desired.
+
+Engineer mode is more secure but requires additional configuration with some knowledge of regular expressions.
+
 # Third-Party python dependencies
 
 > [!NOTE]
@@ -19,9 +23,11 @@ https://pypi.org/project/ahk/ - for controller/keyboard management
 
 https://pypi.org/project/playsound3/ - for the "bip" sfx
 
+https://pypi.org/project/num2words/ - self-explained
+
 All these ones are libs wich really deserve some credit of this program. All-in-one pip install:
 
-> pip install SpeechRecognition vosk pyqt5 ahk playsound3
+> pip install SpeechRecognition vosk pyqt5 ahk playsound3 num2words
 
 ## Troubleshoting with pyAudio
 
@@ -66,11 +72,11 @@ A vosk model must be downloaded in order to use this script. Many models are ava
 
 Download the model for the language you want to use and decompress its contents into the main folder, then rename it to "model" witch is the default location. You can set a custom location modifying the "VoskModelPath" value in config.json.
 
-# Other ettings
+# Other settings
 
-## "Radio" button
+## Free "Radio" button
 
-Edit config.json file and sets the RadioButton to one of these valid values: https://www.autohotkey.com/docs/v2/KeyList.htm
+Edit config.json file and sets the FreeRadioButton to one of these valid values: https://www.autohotkey.com/docs/v2/KeyList.htm
 
 For Wheels/gamepad buttons only the first 32 coded buttons are available, from "Joy1" to "Joy32" for controller 1, "2Joy1" to "2Joy32" for controller 2 and so on till "16Joy1" to "16Joy32" (16 is the max number of controllers available for reading). If you want to use higher idexed buttons you will have to remap them using the application suplied by the manufacturer or any other, or even maping to the keyboard and using the maped key, to do it just use an application like Antimicrox (https://github.com/AntiMicroX/antimicrox).
 
@@ -81,6 +87,10 @@ To know the number of the device you want to use run:
 Devices are sorteds in ordinal (or should it).
 
 Note if you set a keyboard button it will block they original functionality. And if you edit json file you will need to re-run the script to apply the changes.
+
+## Engineer Radio Button
+
+The EngineerButton is used to send commands to your engineer. He will only understand certain commands and ignore what it does not understand. Your engineer can type for you in the chat and also press keys for you.
 
 ## No Overlay
 
