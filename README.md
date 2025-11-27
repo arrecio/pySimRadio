@@ -1,17 +1,26 @@
 # pySimRadio
 
-A VERY simple Speech-to-Chat for iRacing racers using python. Dont expect complex code or nice UIs.
+A simple but useful app for iRacing racers using python and following KISS an reuse code principles. Dont expect a nice UIs.
 
-Keep in mind that Free Radio mode will send the transcript on the fly, so it may send content that may not be desired.
+The project was started as a Speech2Chat application, with the aim of transcribing what was dictated into the microphone into the iRacing chat. Although this feature is part of the application called FreeRadio, it should be noted that in some cases the transcription may be faulty and an unwanted message may end up being sent to the chat.
 
-Engineer mode is more secure but requires additional configuration with some knowledge of regular expressions.
+That is why an Engineer version has been included that only responds when the voice command matches a series of user-defined patterns. The Engineer can write messages for you in the chat, press keys, or dictate any information you request by voice.
+
+This application is not intended to replace much more powerful applications such as CrewChief or DRE, but has simply been designed as an easily modifiable complement to them using a popular language such as Python.
+
+However, it is not necessary to know this programming language, and for most users, it will only be necessary to be familiar with regular expressions to add functionality through the single configuration file called config.json.
+
+The application can also use third-party online services, which are freely available to the community, to translate messages. So, for example, if, like the author, English is not your native language and you find it difficult to vocalize, you can use a transcriber in your native language and the message will be translated into the language you have designated.
 
 # Third-Party python dependencies
 
 > [!NOTE]
 > First of all, at november'25, i recomend using python 3.13 to fit issues with pyAudio.
 
-This program uses several third-party dependencies that must be installed using pip or similar:
+This program uses **several third-party dependencies** that must be installed using pip or similar:
+
+> [!IMPORTANT]
+> All these ones are libs wich really deserve some credit of this app. If you plan to use this application frequently buy his authors a coffee, make a donation, or so to everyone, if possible.
 
 https://pypi.org/project/SpeechRecognition/ - it has a nice microphone audio reader.
 
@@ -25,9 +34,13 @@ https://pypi.org/project/playsound3/ - for the "bip" sfx
 
 https://pypi.org/project/num2words/ - self-explained
 
-All these ones are libs wich really deserve some credit of this program. All-in-one pip install:
+https://pypi.org/project/deep-translator/ - for translation
 
-> pip install SpeechRecognition vosk pyqt5 ahk playsound3 num2words
+https://pypi.org/project/pyttsx3/ - Text to speech
+
+All-in-one pip install:
+
+> pip install SpeechRecognition vosk pyqt5 ahk playsound3 num2words deep-translator pyttsx3
 
 ## Troubleshoting with pyAudio
 
@@ -35,20 +48,7 @@ SpeechRecognition requires pyAudio module installed with is a bit a headpain iss
 
 > pip install pyaudio
 
-But at the moment of writing this README there wasnt a version for python 3.14+.
-
-There are some solutions or alternatives wich doesnt work for my python 3.14, like:
-
-> pip install pipwin
-> 
-> pipwin install pyaudio
-
-or
-
-> winget install -e --id intxcc.pyaudio
-
 Using python 3.13 and the "pip install pyaudio" method is working well.
-
 
 # Third-Party non-python dependencies
 
@@ -71,6 +71,9 @@ Note that "Path/To/v2/AutoHotkey.exe" must be a real and valid path.
 A vosk model must be downloaded in order to use this script. Many models are available at https://alphacephei.com/vosk/models.
 
 Download the model for the language you want to use and decompress its contents into the main folder, then rename it to "model" witch is the default location. You can set a custom location modifying the "VoskModelPath" value in config.json.
+
+> [!NOTE]
+> "DriverLanguage" must match the language of the model.
 
 # Other settings
 
@@ -107,3 +110,5 @@ Edit config.json file and sets the AutoHideIdle to 1 for hide the overlay after 
 # Stop running
 
 Right clicking the overlay and select this option or Ctrl+C on the terminal you use to run the script (or even closing that terminal).
+
+# Commands

@@ -3,15 +3,27 @@
 LOCALES = {}
 
 LOCALES["en"] = {
-    "behind": "behind",
-    "front": "front"
+    "position": "position",
+    "car": "car",
+    "notime": "no time",
+    "noone": "noone",
+    "leader": "leader"
 }
 
 LOCALES["es"] = {
-    "behind": "detrás",
-    "front": "delante"
+    "position": "posición",
+    "car": "coche",
+    "notime": "sin tiempo",
+    "noone": "nadie",
+    "leader": "líder"
 }
 
 def L(word, lang = "en"):
     if lang in LOCALES:
         return LOCALES[lang].get(word)
+    else:
+        return word
+    
+def get_locales(lang = "en"):
+    if lang in LOCALES:
+        return LOCALES[lang]

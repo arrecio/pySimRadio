@@ -1,39 +1,58 @@
 {
-    "FreeRadioButton": "Joy1",
-    "EngineerButton": "Joy2",
+    "DriverLanguage": "es",
+    "DefaultRadioLanguage": "en",
+    "FreeRadioButton": "F1",
+    "EngineerButton": "F2",
     "Overlay": 1,
     "AutoHideIdle": 0,
     "VoskModelPath": "model",
+    "EngineerTranslations": {
+        "inglés": "en",
+        "francés": "fr",
+        "alemán": "de",
+        "ruso": "ru",
+        "italiano": "it"
+    },
     "EngineerCommands": [
-        {
-            "command": "^pero que coño$",
-            "type": "chat",
-            "msg": "WTF"
-        },
-        {
-            "command": "^puto coche (.*)$",
-            "type": "chat",
-            "msg": "Stupid car \\1"
-        },
-        {
-            "command": "^(.*) gilipollas",
-            "type": "chat",
-            "msg": "car \\1, are you moron?"
-        },
-        {
-            "command": "^gracias",
-            "type": "chat",
-            "msg": "Thanks!!!"
-        },
-        {
-            "command": "^de nada",
-            "type": "chat",
-            "msg": "You are welcome!!!"
-        },
         {
             "command": "^micrófono$",
             "type": "keypress",
             "keys": "^<"
+        },
+        {
+            "command": "^silenciar$",
+            "type": "keypress",
+            "keys": "!<"
+        },
+        {
+            "command": "^bloc de notas$",
+            "type": "run",
+            "path": "notepad.exe"
+        },
+        {
+            "command": "^qué hora es$",
+            "type": "say",
+            "msg": "Son las {timestamp}"
+        },
+        {
+            "command": "^quién va P(.*)",
+            "type": "say",
+            "msg": "{p\\1name}"
+        },
+        {
+            "command": "^tiempo P(.*)",
+            "type": "say",
+            "msg": "{p\\1lasttime}"
+        },
+        {
+            "command": "^mejor tiempo P(.*)",
+            "type": "say",
+            "msg": "{p\\1besttime}"
+        },
+        {
+            "command": "^cómo voy$",
+            "type": "say",
+            "msg": "Vas posición {playerposition}"
         }
     ]
 }
