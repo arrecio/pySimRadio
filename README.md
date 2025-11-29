@@ -154,17 +154,17 @@ But you can build a command for get this info for any other position using regex
 >},
 
 > [!NOTE]
-> Note the use of double backslashes.
+> The backslash must be double backslashes in text editors.
 
 ## Usage of the real-time game data
 
 {p1lasttime} is an expression to be replaced in the final message. These types of expressions are enclosed in curly brackets. They can be any of the following, where # represents a number between 0 and 999.
 
->{timestamp} - Current time.
->{p#lasttime} - Last lap time for position #.
->{p#besttime} - Best lap time for position #.
->{p#name} - Name of the driver in position #.
->{playerposition} - The player's race position.
+- {timestamp} - Current time.
+- {p#lasttime} - Last lap time for position #.
+- {p#besttime} - Best lap time for position #.
+- {p#name} - Name of the driver in position #.
+- {playerposition} - The player's race position.
 
 This is a basic list that has been implemented with the sole intention of testing functionality. More will be added in the future.
 
