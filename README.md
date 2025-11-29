@@ -12,6 +12,11 @@ However, it is not necessary to know this programming language, and for most use
 
 The application can also use third-party online services, which are freely available to the community, to translate messages. So, for example, if, like the author, English is not your native language and you find it difficult to vocalize, you can use a transcriber in your native language and the message will be translated into the language you have designated.
 
+If find it useful and you want to support, buy me a coffee:
+
+<a href="https://www.buymeacoffee.com/arrecio"><img src="https://cdn.buymeacoffee.com/buttons/v2/arial-orange.png" height="40px"></a>
+
+
 # Third-Party python dependencies
 
 > [!NOTE]
