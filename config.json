@@ -1,13 +1,13 @@
 {
     "DriverLanguage": "es",
     "DefaultRadioLanguage": "en",
-    "FreeRadioButton": "F1",
-    "EngineerButton": "F2",
+    "FreeRadioButton": "Joy1",
+    "EngineerButton": "Joy2",
     "Overlay": 1,
     "AutoHideIdle": 0,
     "VoskModelPath": "model",
     "EngineerTranslations": {
-        "inglés": "en",
+        "español": "es",
         "francés": "fr",
         "alemán": "de",
         "ruso": "ru",
@@ -25,9 +25,9 @@
             "keys": "!<"
         },
         {
-            "command": "^bloc de notas$",
+            "command": "^mis programas$",
             "type": "run",
-            "path": "notepad.exe"
+            "path": "others.bat"
         },
         {
             "command": "^qué hora es$",

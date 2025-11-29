@@ -23,19 +23,12 @@ This program uses **several third-party dependencies** that must be installed us
 > All these ones are libs wich really deserve some credit of this app. If you plan to use this application frequently buy his authors a coffee, make a donation, or so to everyone, if possible.
 
 https://pypi.org/project/SpeechRecognition/ - it has a nice microphone audio reader.
-
 https://pypi.org/project/PyQt5/ - for the overlay
-
 https://pypi.org/project/vosk/ - for transcription
-
 https://pypi.org/project/ahk/ - for controller/keyboard management
-
 https://pypi.org/project/playsound3/ - for the "bip" sfx
-
 https://pypi.org/project/num2words/ - self-explained
-
 https://pypi.org/project/deep-translator/ - for translation
-
 https://pypi.org/project/pyttsx3/ - Text to speech
 
 All-in-one pip install:
@@ -48,7 +41,11 @@ SpeechRecognition requires pyAudio module installed with is a bit a headpain iss
 
 > pip install pyaudio
 
-Using python 3.13 and the "pip install pyaudio" method is working well.
+Using python 3.13 and the "pip install pyaudio" method is working well. Para instalar esta versión con winget:
+
+> winget install -e --id Python.Python.3.13
+
+También puedes utilizar la Microsoft Store o cualquier otro método que conozcas.
 
 # Third-Party non-python dependencies
 
@@ -58,13 +55,14 @@ A valid AutoHotkey installation is required. The executable must be available th
 
 - PATH enviroment variable
 - AHK_PATH enviroment variable
+
 - "C:\Program Files\AutoHotkey" or "C:\Program Files\AutoHotkey\v2" directory
 
 A valid path can also be established in config.json by adding this key/value pair:
 
 > "AhkPath": "Path/To/v2/AutoHotkey.exe"
 
-Note that "Path/To/v2/AutoHotkey.exe" must be a real and valid path.
+Note that "Path/To/v2/AutoHotkey.exe" must be a valid path in your system.
 
 ## vosk model
 
@@ -73,7 +71,7 @@ A vosk model must be downloaded in order to use this script. Many models are ava
 Download the model for the language you want to use and decompress its contents into the main folder, then rename it to "model" witch is the default location. You can set a custom location modifying the "VoskModelPath" value in config.json.
 
 > [!NOTE]
-> "DriverLanguage" must match the language of the model.
+> "DriverLanguage" must match the language of the model for a correct trascription.
 
 # Other settings
 
@@ -87,11 +85,11 @@ To know the number of the device you want to use run:
 
 > joy.cpl
 
-Devices are sorteds in ordinal (or should it).
+Devices are sorteds in ordinal (or should it). In adition, pressing the properties button you can easy find the button number by pressing the one you want to use.  
 
 Note if you set a keyboard button it will block they original functionality. And if you edit json file you will need to re-run the script to apply the changes.
 
-## Engineer Radio Button
+## Engineer Calling Button
 
 The EngineerButton is used to send commands to your engineer. He will only understand certain commands and ignore what it does not understand. Your engineer can type for you in the chat and also press keys for you.
 
@@ -111,4 +109,77 @@ Edit config.json file and sets the AutoHideIdle to 1 for hide the overlay after 
 
 Right clicking the overlay and select this option or Ctrl+C on the terminal you use to run the script (or even closing that terminal).
 
-# Commands
+# Working with Engineer commands
+
+Commands must be set in the EngineerCommands branch of the config.json file. 
+
+They must contain a structure with two main keys:
+
+- “command”: must contain the text that activates the command. It can be a regular expression.
+
+- “type”: indicates the type of command. There are currently four types: “chat” to write in the chat, “say” to vocalize a response, ‘keypress’ to press a key or combination of keys, and “run” to execute a program.
+
+Other keys will be as follows:
+
+- “msg”: This will only be useful for the ‘chat’ and “say” command types, and will be the message to send or listen to. This message can contain escape characters to replace groups captured in the command and also variables to be replaced using data captured from the game. For example, “{p1time}” will be replaced by the time at position 1.
+
+- “path”: path to the program to be executed in the case of the “run” command type
+
+- “keys”: keys to press in the case of the “keypress” command. See: https://www.autohotkey.com/docs/v2/lib/Send.htm
+
+## Things to keep in mind
+
+Transcribed messages undergo some transformations before being analyzed as regular expressions. These should be taken into account:
+
+- The expression “position” followed by a number, such as 8, which would be “position 8,” is considered P8.
+
+- The expression “leader” is expressed as P1.
+
+In the regular expression, we can define different capture groups (see https://www.w3schools.com/python/python_regex.asp).
+
+An example of a command to request the last lap of the position 1:
+
+>{
+>"command": "^P1 time",
+>"type": "say",
+>"msg": "{p1lasttime}"
+>},
+
+But you can build a command for get this info for any other position using regex:
+
+>{
+>"command": "^P(\\d*) time",
+>"type": "say",
+>"msg": "{p\\1lasttime}"
+>},
+
+> [!NOTE]
+> Note the use of double backslashes.
+
+## Usage of the real-time game data
+
+{p1lasttime} is an expression to be replaced in the final message. These types of expressions are enclosed in curly brackets. They can be any of the following, where # represents a number between 0 and 999.
+
+>{timestamp} - Current time.
+>{p#lasttime} - Last lap time for position #.
+>{p#besttime} - Best lap time for position #.
+>{p#name} - Name of the driver in position #.
+>{playerposition} - The player's race position.
+
+This is a basic list that has been implemented with the sole intention of testing functionality. More will be added in the future.
+
+## Auto commands for translating messages
+
+In the EngineerTranslations branch, the key/value pairs will create commands to translate messages using GoogleTranslator. The pairs must follow this pattern:
+
+“language”: “language code”
+
+“language” will be the first word of the command, so it does not necessarily have to be the name of the language, although that would be the most obvious choice.
+
+For example, we could configure the translations as follows:
+
+> “EngineerTranslations”: {
+> “coffee”: “es”
+> }
+
+With this, if we send a command to the engineer that says “coffee today is a nice day,” it will send “Hoy es un buen día” to the chat becouse "es" mean spanish. See https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes for all codes. Note that may be not everyone are supporteds.

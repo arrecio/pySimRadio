@@ -54,6 +54,10 @@ vosk = VoskRecognizer(model=vosk_model_path)
 app = QApplication([])
 overlay = Overlay(autohide=auto_hide_idle) if draw_overlay else None
 
+################################################################################
+#   Speech-To-Text and Text-To-Speech funcs
+################################################################################
+
 # getting a phrase from mic
 def getSpeech():
     if overlay: overlay.listeningMode()
