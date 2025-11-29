@@ -22,14 +22,14 @@ This program uses **several third-party dependencies** that must be installed us
 > [!IMPORTANT]
 > All these ones are libs wich really deserve some credit of this app. If you plan to use this application frequently buy his authors a coffee, make a donation, or so to everyone, if possible.
 
-https://pypi.org/project/SpeechRecognition/ - it has a nice microphone audio reader.
-https://pypi.org/project/PyQt5/ - for the overlay
-https://pypi.org/project/vosk/ - for transcription
-https://pypi.org/project/ahk/ - for controller/keyboard management
-https://pypi.org/project/playsound3/ - for the "bip" sfx
-https://pypi.org/project/num2words/ - self-explained
-https://pypi.org/project/deep-translator/ - for translation
-https://pypi.org/project/pyttsx3/ - Text to speech
+- https://pypi.org/project/SpeechRecognition/ - it has a nice microphone audio reader.
+- https://pypi.org/project/PyQt5/ - for the overlay
+- https://pypi.org/project/vosk/ - for transcription
+- https://pypi.org/project/ahk/ - for controller/keyboard management
+- https://pypi.org/project/playsound3/ - for the "bip" sfx
+- https://pypi.org/project/num2words/ - self-explained
+- https://pypi.org/project/deep-translator/ - for translation
+- https://pypi.org/project/pyttsx3/ - Text to speech
 
 All-in-one pip install:
 
